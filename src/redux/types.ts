@@ -113,6 +113,8 @@ export interface Toolbar {
   metaKey: boolean;
   shiftKey: boolean;
   spacebarKey: boolean;
+  mKey: boolean;
+  nKey: boolean;
   showSettings: boolean;
   showCustomFonts: boolean;
   showAbout: boolean;

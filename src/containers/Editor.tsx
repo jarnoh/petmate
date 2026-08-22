@@ -174,6 +174,8 @@ interface FramebufferViewProps {
   altKey: boolean;
   shiftKey: boolean;
   spacebarKey: boolean;
+  mKey: boolean;
+  nKey: boolean;
 
   textCursorPos: Coord2;
 
@@ -735,6 +737,8 @@ class FramebufferView extends Component<FramebufferViewProps & FramebufferViewDi
             textColor={colorHighlight}
             font={this.props.font}
             colorPalette={this.props.colorPalette}
+            colorsOnly={this.props.mKey}
+            currentColor={this.props.nKey ? this.props.textColor : undefined}
           />
           {overlays}
           {this.props.canvasGrid ? <GridOverlay width={charWidth} height={charHeight} color={gridColor}   /> : null}
@@ -810,6 +814,8 @@ const FramebufferCont = connect(
       shiftKey: state.toolbar.shiftKey,
       altKey: state.toolbar.altKey,
       spacebarKey: state.toolbar.spacebarKey,
+      mKey: state.toolbar.mKey,
+      nKey: state.toolbar.nKey,
       font,
       colorPalette: getSettingsCurrentColorPalette(state),
       canvasGrid: state.toolbar.canvasGrid

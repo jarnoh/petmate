@@ -174,6 +174,8 @@ const actionCreators = {
   setMetaKey: (flag: boolean) => createAction('Toolbar/SET_META_KEY', flag),
   setShiftKey: (flag: boolean) => createAction('Toolbar/SET_SHIFT_KEY', flag),
   setSpacebarKey: (flag: boolean) => createAction('Toolbar/SET_SPACEBAR_KEY', flag),
+  setMKey: (flag: boolean) => createAction('Toolbar/SET_M_KEY', flag),
+  setNKey: (flag: boolean) => createAction('Toolbar/SET_N_KEY', flag),
   setShowSettings: (flag: boolean) => createAction('Toolbar/SET_SHOW_SETTINGS', flag),
   setShowCustomFonts: (flag: boolean) => createAction('Toolbar/SET_SHOW_CUSTOM_FONTS', flag),
   setShowAbout: (flag: boolean) => createAction('Toolbar/SET_SHOW_ABOUT', flag),
@@ -403,6 +405,10 @@ export class Toolbar {
           dispatch(Toolbar.actions.setAltKey(true))
         } else if (key === ' ') {
           dispatch(Toolbar.actions.setSpacebarKey(true))
+        } else if (key === 'm') {
+          dispatch(Toolbar.actions.setMKey(true))
+        } else if (key === 'n') {
+          dispatch(Toolbar.actions.setNKey(true))
         }
 
         if (metaOrCtrl) {
@@ -438,6 +444,10 @@ export class Toolbar {
           dispatch(Toolbar.actions.setAltKey(false))
         } else if (key === ' ') {
           dispatch(Toolbar.actions.setSpacebarKey(false))
+        } else if (key === 'm') {
+          dispatch(Toolbar.actions.setMKey(false))
+        } else if (key === 'n') {
+          dispatch(Toolbar.actions.setNKey(false))
         }
       }
     },
@@ -550,6 +560,8 @@ export class Toolbar {
       metaKey: false,
       shiftKey: false,
       spacebarKey: false,
+      mKey: false,
+      nKey: false,
       showSettings: false,
       showCustomFonts: false,
       showAbout: false,
@@ -652,7 +664,9 @@ export class Toolbar {
           altKey: false,
           ctrlKey: false,
           metaKey: false,
-          shiftKey: false
+          shiftKey: false,
+          mKey: false,
+          nKey: false
         }
       case 'Toolbar/SET_TEXT_COLOR':
         return updateField(state, 'textColor', action.data);
@@ -676,6 +690,10 @@ export class Toolbar {
         return updateField(state, 'shiftKey', action.data);
       case 'Toolbar/SET_SPACEBAR_KEY':
         return updateField(state, 'spacebarKey', action.data);
+      case 'Toolbar/SET_M_KEY':
+        return updateField(state, 'mKey', action.data);
+      case 'Toolbar/SET_N_KEY':
+        return updateField(state, 'nKey', action.data);
       case 'Toolbar/SET_SHOW_SETTINGS':
         return updateField(state, 'showSettings', action.data);
       case 'Toolbar/SET_SHOW_CUSTOM_FONTS':

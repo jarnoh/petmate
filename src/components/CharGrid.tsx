@@ -57,6 +57,8 @@ interface CharGridProps {
   colorPalette: Rgb[];
   font: Font;
   framebuf: Pixel[][];
+  colorsOnly?: boolean;
+  currentColor?: number;
 }
 
 export default class CharGrid extends Component<CharGridProps> {
@@ -82,6 +84,8 @@ export default class CharGrid extends Component<CharGridProps> {
       this.props.charPos !== prevProps.charPos ||
       this.props.curScreencode !== prevProps.curScreencode ||
       this.props.textColor !== prevProps.textColor ||
+      this.props.colorsOnly !== prevProps.colorsOnly ||
+      this.props.currentColor !== prevProps.currentColor ||
       this.props.backgroundColor !== prevProps.backgroundColor ||
       this.props.font !== prevProps.font ||
       this.props.colorPalette !== prevProps.colorPalette) {
@@ -106,6 +110,12 @@ export default class CharGrid extends Component<CharGridProps> {
 
     const { grid, srcX, srcY } = this.props
 
+    const getDisplayImage = (pixel: Pixel, props: CharGridProps) => {
+      const code = props.colorsOnly ? 0xa0 : pixel.code
+      const color = props.currentColor !== undefined ? props.currentColor : pixel.color
+      return this.font!.getImage(code, color)
+    }
+
     const xScale = grid ? 9 : 8
     const yScale = grid ? 9 : 8
 
@@ -115,6 +125,8 @@ export default class CharGrid extends Component<CharGridProps> {
          this.props.height !== prevProps.height ||
          this.props.srcX !== prevProps.srcX ||
          this.props.srcY !== prevProps.srcY ||
+         this.props.colorsOnly !== prevProps.colorsOnly ||
+         this.props.currentColor !== prevProps.currentColor ||
          invalidate)
         :
         true
@@ -125,7 +137,7 @@ export default class CharGrid extends Component<CharGridProps> {
       }
       for (let x = 0; x < this.props.width; x++) {
         const c = charRow[x + srcX]
-        const img = this.font.getImage(c.code, c.color)
+        const img = getDisplayImage(c, this.props)
         ctx.putImageData(img, x*xScale, y*yScale)
       }
     }
@@ -136,7 +148,7 @@ export default class CharGrid extends Component<CharGridProps> {
       if (charPos.row >= 0 && charPos.row < this.props.height &&
           charPos.col >= 0 && charPos.col < this.props.width) {
         const c = framebuf[charPos.row][charPos.col]
-        const img = this.font.getImage(c.code, c.color)
+        const img = getDisplayImage(c, this.props)
         ctx.putImageData(img, charPos.col*xScale, charPos.row*yScale)
       }
     }
@@ -153,7 +165,7 @@ export default class CharGrid extends Component<CharGridProps> {
             this.props.textColor :
             framebuf[charPos.row][charPos.col].color
         }
-        const img = this.font.getImage(c.code, c.color)
+        const img = getDisplayImage(c, this.props)
         ctx.putImageData(img, charPos.col*xScale, charPos.row*yScale)
       }
     }
