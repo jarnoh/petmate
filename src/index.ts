@@ -151,6 +151,9 @@ electron.ipcRenderer.on('menu', (_event: Event, message: string) => {
     case 'import-seq':
       store.dispatch(ReduxRoot.actions.fileImportAppend(formats.seq));
       return
+    case 'import-prg':
+      store.dispatch(ReduxRoot.actions.fileImportAppend(formats.prg));
+      return
     case 'preferences':
       store.dispatch(Toolbar.actions.setShowSettings(true))
       return

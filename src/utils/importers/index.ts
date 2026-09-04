@@ -79,3 +79,4 @@ export function loadMarqCFramebuf(filename: string, importFile: ImportDispatch) 
 
 export { loadD64Framebuf } from './d64'
 export { loadSeq } from './seq2petscii'
+export { loadPrg } from './prg'
