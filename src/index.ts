@@ -130,6 +130,9 @@ electron.ipcRenderer.on('menu', (_event: Event, message: string) => {
     case 'export-prg':
       dispatchExport(formats.prg)
       return
+    case 'export-diskart-prg':
+      dispatchExport(formats.diskart)
+      return
     case 'export-gif':
       dispatchExport(formats.gif)
       return

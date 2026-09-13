@@ -2,6 +2,9 @@
 interface FileFormatBase {
   name: string;
   ext: string;
+  // Real file extension to use for save/open dialogs, when it differs from
+  // the `ext` discriminant (e.g. multiple .prg export variants).
+  fileExt?: string;
   commonExportParams: {
     selectedFramebufIndex: number;
   };
@@ -59,6 +62,13 @@ export interface FileFormatPrg extends FileFormatBase {
   ext: 'prg';
 }
 
+// "Disk art" style .prg: no BASIC/asm loader, just a 2-byte load address
+// ($0400, i.e. the default screen RAM location) followed by the 1000
+// screencode bytes. No color RAM / border / background is stored.
+export interface FileFormatDiskart extends FileFormatBase {
+  ext: 'diskart';
+}
+
 export interface FileFormatBas extends FileFormatBase {
   ext: 'bas';
   exportOptions: {
@@ -85,6 +95,7 @@ export type FileFormat =
   | FileFormatPng
   | FileFormatC
   | FileFormatPrg
+  | FileFormatDiskart
   | FileFormatBas
   | FileFormatJson
   | FileFormatSeq

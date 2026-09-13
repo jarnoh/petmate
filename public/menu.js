@@ -13,6 +13,7 @@ const exporters = [
   { label: 'Assembler source (.asm)', cmd: 'export-asm' },
   { label: 'BASIC (.bas)', cmd: 'export-basic' },
   { label: 'Executable (.prg)', cmd: 'export-prg' },
+  { label: 'Disk art (.prg)', cmd: 'export-diskart-prg' },
   { label: 'GIF (.gif)', cmd: 'export-gif' },
   { label: 'JSON (.json)', cmd: 'export-json' },
   { label: 'PETSCII (.c)', cmd: 'export-marq-c' },

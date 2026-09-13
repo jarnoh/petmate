@@ -4,6 +4,7 @@ import {
   savePNG,
   saveMarqC,
   saveExecutablePRG,
+  saveDiskartPRG,
   saveAsm,
   saveBASIC,
   saveGIF,
@@ -73,6 +74,12 @@ export const formats: { [index: string]: FileFormat } = {
   prg: {
     name: 'Executable .prg',
     ext: 'prg',
+    commonExportParams: defaultExportCommon,
+  },
+  diskart: {
+    name: 'Disk art .prg',
+    ext: 'diskart',
+    fileExt: 'prg',
     commonExportParams: defaultExportCommon,
   },
   asm: {
@@ -192,6 +199,8 @@ const saveFramebufs = (fmt: FileFormat, filename: string, framebufs: FramebufWit
     return saveAsm(filename, framebufs, fmt);
   } else if (fmt.ext === 'prg') {
     return saveExecutablePRG(filename, selectedFramebuf, fmt);
+  } else if (fmt.ext === 'diskart') {
+    return saveDiskartPRG(filename, selectedFramebuf, fmt);
   } else if (fmt.ext === 'bas') {
     return saveBASIC(filename, framebufs, fmt);
   } else if (fmt.ext === 'json') {
@@ -373,7 +382,7 @@ export function dialogExportFile(fmt: FileFormat, framebufs: FramebufWithFont[],
   const {dialog} = electron.remote
   const window = electron.remote.getCurrentWindow();
   const filters = [
-    {name: fmt.name, extensions: [fmt.ext]}
+    {name: fmt.name, extensions: [fmt.fileExt || fmt.ext]}
   ]
   const filename = dialog.showSaveDialogSync(window, {properties: ['openFile'], filters})
   if (filename === undefined) {

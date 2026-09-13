@@ -1,7 +1,7 @@
 
 import { chunkArray, executablePrgTemplate } from '../../utils'
 
-import { Framebuf, FileFormat, FileFormatPrg, FramebufWithFont } from '../../redux/types'
+import { Framebuf, FileFormat, FileFormatPrg, FileFormatDiskart, FramebufWithFont } from '../../redux/types'
 import { CHARSET_LOWER } from '../../redux/editor'
 
 import { saveAsm, genAsm } from './asm'
@@ -183,10 +183,38 @@ function saveExecutablePRG(filename: string, fb: FramebufWithFont, options: File
   }
 }
 
+function saveDiskartPRG(filename: string, fb: FramebufWithFont, _options: FileFormatDiskart) {
+  try {
+    const { width, height, framebuf } = fb
+
+    if (width !== 40 || height !== 25) {
+      throw new Error('Only 40x25 framebuffer widths are supported!')
+    }
+
+    // 2-byte load address ($0400, screen RAM) followed by the 1000
+    // screencodes.  No color RAM, border or background is stored -- this
+    // is the raw format used by C64 "disk art" screen dumps.
+    let bytes: number[] = [0x00, 0x04]
+
+    for (let y = 0; y < height; y++) {
+      for (let x = 0; x < width; x++) {
+        bytes.push(framebuf[y][x].code)
+      }
+    }
+
+    fs.writeFileSync(filename, Buffer.from(bytes), null)
+  }
+  catch(e) {
+    alert(`Failed to save file '${filename}'!`)
+    console.error(e)
+  }
+}
+
 export {
   savePNG,
   saveMarqC,
   saveExecutablePRG,
+  saveDiskartPRG,
   saveAsm,
   saveBASIC,
   saveGIF,
